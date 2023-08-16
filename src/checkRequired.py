@@ -1,10 +1,12 @@
 import win32gui
 import win32con
 import time
+import const
 
 
 class CheckRequired:
     def __init__(self):
+        self.const = const.Const()
         self.check()
 
     def check(self):
@@ -16,17 +18,23 @@ class CheckRequired:
                     if self.CheckSizeOfChromeWindow(chromeWindow):
                         print("Size of chrome window is correct")
                     else:
-                        self.prinErrorOfRequiredWindow()
+                        self.prinErrorOfRequiredWindow(3)
                 else:
-                    self.prinErrorOfRequiredWindow()
+                    self.prinErrorOfRequiredWindow(2)
             else:
-                self.prinErrorOfRequiredWindow()
+                self.prinErrorOfRequiredWindow(1)
         else:
-            self.prinErrorOfRequiredWindow()
+            self.prinErrorOfRequiredWindow(1)
 
-    def prinErrorOfRequiredWindow(self):
-        print("Chrome browser is not open, please open it and enter in the url https://plbrault.github.io/youre-the-os/ and try again, the resolution of the window must be 1920x1080 and the zoom must be 100%")
-        # exit the program
+    def prinErrorOfRequiredWindow(self, case):
+        print("Error: ")
+        if case == 1:
+            print("Chrome browser is not open, please open it and try again")
+        elif case == 2:
+            print("Tab of game is not open, please open the url https://plbrault.github.io/youre-the-os/ and try again")
+        elif case == 3:
+            print("The resolution of the window must be 1920x1080 and the zoom must be 100%")
+
         exit()
 
     def _enumWindowsHandler(self, hwnd, windows):
@@ -63,8 +71,10 @@ class CheckRequired:
                 time.sleep(1)
                 # get handler of the chrome window
                 hwnd = win32gui.GetForegroundWindow()
-                # set to fullscreen
-                win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
+                # set window to normal
+                win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+                # set window to 640x480
+                win32gui.MoveWindow(hwnd, 0, 0, 1152, 648, True)
                 return window[0]
         
         return None
@@ -76,23 +86,19 @@ class CheckRequired:
         # get the title of the chrome window
         chromeWindowTitle = win32gui.GetWindowText(chromeWindow)
 
-        if chromeWindowTitle != "You're the OS! - Google Chrome":
+        if chromeWindowTitle != self.const.WINDOW_NAME:
             return False
         
         return True
 
-    def GetSizeOfChromeWindow(self, chromeWindow):
+    def CheckSizeOfChromeWindow(self, chromeWindow):
         # get the size of the chrome window
         rect = win32gui.GetWindowRect(chromeWindow)
-        width = rect[2] - rect[0]
-        height = rect[3] - rect[1]
-        return (width, height)
-    
-    def CheckSizeOfChromeWindow(self, chromeWindow):
-        # size must be (1938, 1038)
-        size = self.GetSizeOfChromeWindow(chromeWindow)
-        print(size)
-        if size[0] != 1938 or size[1] != 1038:
+
+        print(rect[2] - rect[0])
+        print(rect[3] - rect[1])
+
+        if rect[2] - rect[0] != self.const.RESOLUTION[0] or rect[3] - rect[1] != self.const.RESOLUTION[1]:
             return False
         
         return True
