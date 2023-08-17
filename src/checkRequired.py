@@ -95,9 +95,6 @@ class CheckRequired:
         # get the size of the chrome window
         rect = win32gui.GetWindowRect(chromeWindow)
 
-        print(rect[2] - rect[0])
-        print(rect[3] - rect[1])
-
         if rect[2] - rect[0] != self.const.RESOLUTION[0] or rect[3] - rect[1] != self.const.RESOLUTION[1]:
             return False
         
