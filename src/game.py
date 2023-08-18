@@ -35,6 +35,7 @@ class Game:
         while True:
             cpu_data = self.getCPUProcess()
             ilde_process_data = self.getIldeProcess()
+            # self.getMemoryPages() TODO: fix this
             self.checkIOEvents()
 
             for cpu in cpu_data:
@@ -57,7 +58,6 @@ class Game:
                 # foreach ilde_process_data in reverse oreder
                 for level in reversed(ilde_process_data):
                     if int(level) != 0 and int(level) != 7 and int(level) != 1:
-                        print(level)
                         if ilde_process_data[level] is not False:
                             # click on coords
                             self.opencv.click(
@@ -72,21 +72,12 @@ class Game:
                 print("Q pressed")
                 self.captureworker.stop()
                 exit()
-            if 'P' in keys:
-                print(cpu_data)
-                self.captureworker.stop()
-                exit()
-
-            # cv.imshow("screenshot DEBUG", image)
-            # cv.waitKey(0)
-            # self.captureworker.stop()
-            # exit()
 
     def checkIOEvents(self):
         # if IOevents found press space
         IOevents = self.zones.getIOEvents(self.captureworker.screenshot)
 
-        if self.opencv.FindColorOnScreen("0x008080", IOevents, 15) is True:
+        if self.opencv.FindColorOnScreen("0x008080", IOevents, 15, False) is True:
             self.opencv.pressKey("space")
 
     def getIldeProcess(self):
@@ -126,3 +117,16 @@ class Game:
                     results[cpu][level] = (res[0] + self.zones.getXAndYZone(cpu)[0], res[1] + self.zones.getXAndYZone(cpu)[1])
 
         return results
+
+    def getMemoryPages(self):
+        memory_pages = self.zones.getMemoryPages(self.captureworker.screenshot)
+
+        pid_paged = self.opencv.FindColorOnScreen("0x0000FF", memory_pages, 15, True)
+
+        if pid_paged is not False:
+            pid_idle = self.opencv.FindColorOnScreen("0x63666A", memory_pages, 15, True)
+            if pid_idle is not False:
+                self.opencv.click(pid_idle[0], pid_idle[1])
+                self.opencv.click(pid_paged[0], pid_paged[1])
+        
+

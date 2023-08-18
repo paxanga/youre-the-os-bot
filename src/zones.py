@@ -114,6 +114,16 @@ class Zones:
 
         return IOevents
     
+    def getMemoryPages(self, screenshot):
+        x = 540
+        y = 230  
+        x2 = 1010
+        y2 = 700
+
+        MemoryPages = screenshot[y:y2, x:x2]
+
+        return MemoryPages
+    
     def getIdleProcess(self, screenshot):
         x = 149
         y = 230

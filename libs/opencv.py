@@ -30,7 +30,7 @@ class OpenCV:
         else:
             return False
         
-    def FindColorOnScreen(self, color_hex, capture, tolerance):
+    def FindColorOnScreen(self, color_hex, capture, tolerance, return_pos):
 
         # color = convert hex to rgb
         color_hex = color_hex.replace("0x", "") 
@@ -49,7 +49,10 @@ class OpenCV:
                 pixel_color_bgr = capture[y, x]
                 color_diff = sum(abs(pixel_color_bgr[i] - color_bgr[i]) for i in range(3))
                 if color_diff <= tolerance:
-                    return True
+                    if return_pos:
+                        return (x, y)
+                    else:
+                        return True
         return False
 
     def pressKey(self, key):
