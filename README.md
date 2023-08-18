@@ -2,6 +2,8 @@
 
 This is a python script designed to automate the You're the OS game process https://plbrault.github.io/youre-the-os/
 
+![](https://github.com/paxanga/youre-the-os-bot/blob/main/src/capture.gif)
+
 **Requirements:**
 - Windows OS
 - Google Chrome
