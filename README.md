@@ -1,20 +1,19 @@
 # youre-the-os-bot
 
+This is a python script designed to automate the You're the OS game process https://plbrault.github.io/youre-the-os/
 
-Esto es un script de python diseñado para automatizar el proceso del juego You're the OS https://plbrault.github.io/youre-the-os/
+**Requirements:**
+- Windows OS
+- Google Chrome
+- Install libraries from requirements.txt
 
-Requisitos:
-Windows OS
-Google Chrome
-instalar librerias de requirements.txt
+**Use:**
+1. Open Google Chrome
+2. Go to the game website https://plbrault.github.io/youre-the-os/
+3. run the script: __"python main.py"__
 
-Uso:
-Abre Google Chrome
-Ve a la web del juego https://plbrault.github.io/youre-the-os/
-Ejecuta el script
+**Stop:**
+- Press the **Q** key to stop the script
 
-Parar:
-Presiona la tecla Q para detener el script
-
-Notas:
+**Notes:**
 This script is provided for educational and experimental purposes only. Use it at your own risk. The author is not responsible for any consequences resulting from the use of the script.
